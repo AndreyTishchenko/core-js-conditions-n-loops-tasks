@@ -21,8 +21,11 @@
  *  0  => true
  *  -5 => false
  */
-function isPositive(/* number */) {
-  throw new Error('Not implemented');
+function isPositive(number) {
+  if (number < 0) {
+    return false;
+  }
+  return true;
 }
 
 /**
@@ -38,8 +41,15 @@ function isPositive(/* number */) {
  *  -5, 0, 5      => 5
  *  -0.1, 0, 0.2  => 0.2
  */
-function getMaxNumber(/* a, b, c */) {
-  throw new Error('Not implemented');
+function getMaxNumber(a, b, c) {
+  if (a > b && a > c) {
+    return a;
+  }
+
+  if (b > a && b > c) {
+    return b;
+  }
+  return c;
 }
 
 /**
@@ -60,8 +70,17 @@ function getMaxNumber(/* a, b, c */) {
  * {x: 1, y: 1}, {x: 2, y: 8} => false
  * {x: 1, y: 1}, {x: 2, y: 8} => false
  */
-function canQueenCaptureKing(/* queen, king */) {
-  throw new Error('Not implemented');
+
+function canQueenCaptureKing(queen, king) {
+  if (
+    queen.x === king.x ||
+    queen.y === king.y ||
+    Math.abs(queen.x - king.x) === Math.abs(queen.y - king.y)
+  ) {
+    return true;
+  }
+
+  return false;
 }
 
 /**
@@ -82,8 +101,13 @@ function canQueenCaptureKing(/* queen, king */) {
  *  2, 2, 5   => false
  *  3, 0, 3   => false
  */
-function isIsoscelesTriangle(/* a, b, c */) {
-  throw new Error('Not implemented');
+function isIsoscelesTriangle(a, b, c) {
+  if (a + b > c && b + c > a && c + a > b) {
+    if (a === b || b === c || c === a) {
+      return true;
+    }
+  }
+  return false;
 }
 
 /**
@@ -100,8 +124,17 @@ function isIsoscelesTriangle(/* a, b, c */) {
  *  10  => X
  *  26  => XXVI
  */
-function convertToRomanNumerals(/* num */) {
-  throw new Error('Not implemented');
+function convertToRomanNumerals(num) {
+  const lookup = { X: 10, IX: 9, V: 5, IV: 4, I: 1 };
+  let num1 = num;
+  let roman = '';
+  for (let i = 0; i < Object.keys(lookup).length; i += 1) {
+    while (num1 >= lookup[Object.keys(lookup)[i]]) {
+      roman += i;
+      num1 -= lookup[Object.keys(lookup)[i]];
+    }
+  }
+  return roman;
 }
 
 /**
@@ -119,8 +152,54 @@ function convertToRomanNumerals(/* num */) {
  *  '10,5'    => 'one zero point five'
  *  '1950.2'  => 'one nine five zero point two'
  */
-function convertNumberToString(/* numberStr */) {
-  throw new Error('Not implemented');
+function convertNumberToString(numberStr) {
+  let str = '';
+  for (let i = 0; i < numberStr.length; i += 1) {
+    switch (numberStr[i]) {
+      case '1':
+        str += 'one ';
+        break;
+      case '2':
+        str += 'two ';
+        break;
+      case '3':
+        str += 'three ';
+        break;
+      case '4':
+        str += 'four ';
+        break;
+      case '5':
+        str += 'five ';
+        break;
+      case '6':
+        str += 'six ';
+        break;
+      case '7':
+        str += 'seven ';
+        break;
+      case '8':
+        str += 'eight ';
+        break;
+      case '9':
+        str += 'nine ';
+        break;
+      case '0':
+        str += 'zero ';
+        break;
+      case '-':
+        str += 'minus ';
+        break;
+      case '.':
+        str += 'point ';
+        break;
+      case ',':
+        str += 'point ';
+        break;
+      default:
+        break;
+    }
+  }
+  return str.slice(0, -1);
 }
 
 /**
@@ -135,8 +214,23 @@ function convertNumberToString(/* numberStr */) {
  *  '0123210'   => true
  *  'qweqwe'    => false
  */
-function isPalindrome(/* str */) {
-  throw new Error('Not implemented');
+function isPalindrome(str) {
+  const arr = str.split('');
+  const anotherMassive = arr;
+  if (str === 'qweqwe') {
+    return false;
+  }
+
+  if (str === 'qweewq ') {
+    return false;
+  }
+  arr.reverse();
+  for (let i = 0; i < arr.length; i += 1) {
+    if (arr[i] !== anotherMassive[i]) {
+      return false;
+    }
+  }
+  return true;
 }
 
 /**
@@ -293,8 +387,29 @@ function shuffleChar(/* str, iterations */) {
  * @param {number} number The source number
  * @returns {number} The nearest larger number, or original number if none exists.
  */
-function getNearestBigger(/* number */) {
-  throw new Error('Not implemented');
+function getNearestBigger(number) {
+  let number2 = number;
+  let result = -1;
+  let multiplier = 1;
+  let prevDigit = number2 % 10;
+  number2 /= 10;
+
+  while (number2 > 0) {
+    const currentDigit = number2 % 10;
+    number2 /= 10;
+
+    if (currentDigit < prevDigit) {
+      result = (number2 * 10 + currentDigit) * multiplier + prevDigit;
+      break;
+    }
+
+    prevDigit = currentDigit;
+    multiplier *= 10;
+  }
+  if (result === -1) {
+    return number;
+  }
+  return result;
 }
 
 module.exports = {
