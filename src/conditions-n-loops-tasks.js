@@ -618,26 +618,37 @@ function shuffleChar(str, iterations) {
  * @returns {number} The nearest larger number, or original number if none exists.
  */
 function getNearestBigger(number) {
-  const str = `${number}`;
-  const arr = [];
-  for (let i = 0; i < str.length; i += 1) {
-    arr[i] = str[i];
+  const str = [];
+  let num = number;
+
+  while (num > 0) {
+    str.push(num % 10);
+    num = Math.floor(num / 10);
   }
-  for (let i = arr.length - 1; i >= 0; i -= 1) {
-    if (+arr[i] !== 0) {
-      if (+arr[i - 1] < +arr[i]) {
-        let min = +arr[i];
-        for (let j = i; j < arr.length; j += 1) {
-          if (+arr[j] < min && +arr[j] > +arr[i - 1]) min = +arr[j];
+  str.reverse();
+
+  for (let i = str.length - 2; i >= 0; i -= 1) {
+    if (str[i] < str[i + 1]) {
+      let min = i + 1;
+      for (let j = i + 1; j < str.length; j += 1) {
+        if (str[j] <= str[min] && str[j] > str[i]) {
+          min = j;
         }
-        const swapItemIndex = arr.findLastIndex((item) => item === `${min}`);
-        const temp = arr[swapItemIndex];
-        arr[swapItemIndex] = arr[i - 1];
-        arr[i - 1] = temp;
-        const rightSide = arr.splice(i).sort().join('');
-        const leftSide = arr.join('');
-        return Number(leftSide + rightSide);
       }
+      const str2 = str[i];
+      str[i] = str[min];
+      str[min] = str2;
+
+      const rightPart = [];
+      for (let j = i + 1; j < str.length; j += 1) {
+        rightPart.push(str[j]);
+      }
+      rightPart.sort((a, b) => a - b);
+
+      for (let j = i + 1; j < str.length; j += 1) {
+        str[j] = rightPart.shift();
+      }
+      return Number(str.join(''));
     }
   }
   return number;
